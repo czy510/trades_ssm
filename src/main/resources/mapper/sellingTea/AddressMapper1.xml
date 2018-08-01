@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AddressMapper1">
+<!-- ip获取地址 -->
+<select id="findByIpProvinceAndCity" parameterType="String" resultType="PageData">
+   select C.CODE CityCode, C.NAME CityName,D.NAME ProvinceName from C_IpToCity C 
+           LEFT JOIN D_Province D ON C.PROVINCECODE = D.CODE
+   where tea.STRIPTOINT(#{ip})  &gt;= C.STARTVALUE and  tea.STRIPTOINT(#{ip}) &lt;= C.ENDVALUE
+</select>
+
+<!-- 获取省份 -->
+<select id="listProvince" resultType="PageData">
+  select * from D_Province
+</select>
+
+<!-- 根据省编码获取市 -->
+<select id="listCityByProvinceCode" parameterType="String" resultType="PageData">
+  select DISTINCT C.CODE,C.NAME from C_IpToCity C where PROVINCECODE=#{provinceCode}
+</select>
+
+<!-- 省份 -->
+<select id="listD_Province" resultType="PageData">
+             select * from D_Province
+</select>
+
+<!-- 城市 -->
+<select id="listD_CITYByPROVINCECODE" parameterType="String" resultType="PageData">
+    select * from D_City where PROVINCECODE=#{provinceCode}
+</select>
+
+<!-- 区 -->
+<select id="listD_AREAByCITYCODE" parameterType="String" resultType="PageData">
+  select * from D_Area where CITYCODE = #{cityCode}
+</select>
+<!-- 根据市编码获取 省，市 -->
+<select id="findPCByCityCode" parameterType="String" resultType="PageData">
+   select DISTINCT C.CODE CityCode,C.NAME CityName,D.NAME ProvinceName,D.CODE ProvinceCode  from C_IpToCity C 
+           LEFT JOIN D_Province D ON C.PROVINCECODE = D.CODE WHERE  C.CODE=#{cityCode}
+</select>
+</mapper>

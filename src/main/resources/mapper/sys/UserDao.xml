@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.st.trade.modules.sys.dao.UserDao">
+	
+
+	<select id="listUsers" resultType="ParamData">
+	SELECT u.*,cu.name as names from user u
+	LEFT JOIN c_user cu on u.pid = cu.id
+    </select>
+	
+	<insert id="saveC_user" parameterType="UserEntity">
+          insert into c_user(
+			 ids,
+			name
+		  ) values (
+			#{ids},
+			#{name})
+	</insert>
+
+</mapper>
